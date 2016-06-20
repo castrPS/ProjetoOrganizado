@@ -6,23 +6,53 @@ import exceptions.*;
 
 public class Hotel {
 	private CadastroQuartos cadQuartos;
-	//private CadastroProdutos cadProdutos;
+	private CadastroProdutos cadProdutos;
 	private CadastroClientes cadClientes;
 	private CadastroFuncionarios cadFuncionarios;
 	
-	public Hotel(RepositorioQuartos rep) {
-		cadQuartos = new CadastroQuartos((RepositorioQuartos)rep);
-		//cadProdutos = new CadastroProdutos(rep);
-		cadClientes = new CadastroClientes((RepositorioClientes) rep);
-		cadFuncionarios = new CadastroFuncionarios((RepositorioFuncionarios) rep);
+	public Hotel(RepositorioQuartos repQ, RepositorioProdutos repP, RepositorioClientes repC, RepositorioFuncionarios repF) {
+		cadQuartos = new CadastroQuartos(repQ);
+		cadProdutos = new CadastroProdutos(repP);
+		cadClientes = new CadastroClientes(repC);
+		cadFuncionarios = new CadastroFuncionarios(repF);
 	}
+	//Métodos relacionados a Quarto
 	
-	public void cadastrarQuarto(QuartoAbstrato quarto) throws QuartoJaCadastradoException {
-		cadQuartos.cadastrar(quarto);
+	
+	public void cadastrarQuarto(String numero, double valorDiaria, String tipo) throws QuartoJaCadastradoException, TipoQuartoInvalidoException {
+		QuartoAbstrato temp;
+		if (tipo.equals("Standard")) {
+			temp = new QuartoStandard(numero, valorDiaria);
+		} else if (tipo.equals("Luxo")) {
+			temp = new QuartoLuxo(numero, valorDiaria); 
+		} else {
+			throw new TipoQuartoInvalidoException();
+		}
+		cadQuartos.cadastrar(temp);
 	}
+	public void removerQuarto(String numero) throws QuartoNaoEncontradoException, QuartoOcupadoException {
+		QuartoAbstrato target = cadQuartos.procurar(numero);
+		if (target.getHospede() == null) {
+			cadQuartos.remover(numero);
+		} else {
+			throw new QuartoOcupadoException(numero, target.getHospede());
+		}
+	}
+	public void checkin(String numeroQuarto, String cpfCliente, int numDias) throws QuartoNaoEncontradoException, ClienteNaoEncontradoException, QuartoOcupadoException {
+		QuartoAbstrato quarto = cadQuartos.procurar(numeroQuarto);
+		Cliente cliente = cadClientes.procurar(cpfCliente);
+		quarto.checkin(cliente, numDias);
+	}
+	public double checkout(String numeroQuarto) throws QuartoNaoEncontradoException, QuartoVazioException {
+		QuartoAbstrato quarto = cadQuartos.procurar(numeroQuarto);
+		double total = quarto.checkout();
+		return total;
+	}
+	//Métodos relacionados a Funcionario
 	public void cadastrarFuncionario(Funcionario funcionario) throws FuncionarioJaCadastradoException {
 		cadFuncionarios.cadastrar(funcionario);
 	}
+	//Métodos relacionados a Cliente
 	public void cadastrarCliente(Cliente cliente) throws ClienteJaCadastradoException{
 		cadClientes.cadastrar(cliente);
 	}
