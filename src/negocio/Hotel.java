@@ -16,8 +16,8 @@ public class Hotel {
 		cadClientes = new CadastroClientes(repC);
 		cadFuncionarios = new CadastroFuncionarios(repF);
 	}
-	//MÈtodos relacionados a Quarto
 	
+	//Metodos relacionados a Quarto
 	
 	public void cadastrarQuarto(String numero, double valorDiaria, String tipo) throws QuartoJaCadastradoException, TipoQuartoInvalidoException {
 		QuartoAbstrato temp;
@@ -43,16 +43,29 @@ public class Hotel {
 		Cliente cliente = cadClientes.procurar(cpfCliente);
 		quarto.checkin(cliente, numDias);
 	}
+	//Este m√©todo relaciona QuartoAbstrato e Cliente
+	//Possibilidades: Ao inv√©s de o m√©todo retornar um double, ele retorna void e acrescenta
+	//o valor recebido por "quarto.checkout()" ao atributo "gastos" de Cliente
 	public double checkout(String numeroQuarto) throws QuartoNaoEncontradoException, QuartoVazioException {
 		QuartoAbstrato quarto = cadQuartos.procurar(numeroQuarto);
 		double total = quarto.checkout();
 		return total;
 	}
-	//MÈtodos relacionados a Funcionario
+	//Este m√©todo relaciona QuartoAbstrato e Funcionario
+	public void limparQuarto(String numeroQuarto, String cpfFuncionario) throws QuartoNaoEncontradoException, FuncionarioNaoEncontradoException {
+		QuartoAbstrato quarto = cadQuartos.procurar(numeroQuarto);
+		Funcionario funcionario = cadFuncionarios.procurar(cpfFuncionario);
+		quarto.limpar();
+	}
+	
+	//Metodos relacionados a Funcionario
+	
 	public void cadastrarFuncionario(Funcionario funcionario) throws FuncionarioJaCadastradoException {
 		cadFuncionarios.cadastrar(funcionario);
 	}
-	//MÈtodos relacionados a Cliente
+	
+	//Metodos relacionados a Cliente
+	
 	public void cadastrarCliente(Cliente cliente) throws ClienteJaCadastradoException{
 		cadClientes.cadastrar(cliente);
 	}
