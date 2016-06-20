@@ -39,9 +39,9 @@ public class CadastroClientes {
 		}	
 	}
 	
-	public void procurar(String CPF) throws ClienteNaoEncontradoException{
+	public Cliente procurar(String CPF) throws ClienteNaoEncontradoException{
 		if( repositorio.existe(CPF) ){
-			this.repositorio.procurar(CPF);
+			return this.repositorio.procurar(CPF);
 		} else {
 			throw new ClienteNaoEncontradoException();
 		}

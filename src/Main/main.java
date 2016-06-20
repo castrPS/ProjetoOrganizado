@@ -6,7 +6,7 @@ import classesbasicas.*;
 public class main {
 
 	public static void main(String[] args) {
-		RepositorioClientes clientes= new RepositorioClientes();
+		
 		
 		
 

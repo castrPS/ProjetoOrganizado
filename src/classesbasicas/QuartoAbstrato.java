@@ -47,12 +47,8 @@ public abstract class QuartoAbstrato {
 		}
 	}
 	
-	public Cliente getCliente() throws QuartoVazioException {
-		if (this.hospede != null) {
-			return this.hospede;
-		} else {
-			throw new QuartoVazioException(this.numero);
-		}
+	public Cliente getHospede(){
+		return hospede;
 	}
 	public String getNumero() {
 		return numero;
