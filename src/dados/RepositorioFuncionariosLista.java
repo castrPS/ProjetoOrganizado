@@ -37,13 +37,14 @@ public class RepositorioFuncionariosLista implements RepositorioFuncionarios {
 	}
 	
 	public Funcionario procurar(String CPF) {
+		Funcionario retorno;
 		// percorro a lista enquanto nao encontrar o funcionario 
 		if (this.funcionario.getCPF().equals(CPF)){
-			return this.funcionario;
+			retorno = this.funcionario;
 		} else { 
-			return this.proximo.procurar(CPF);
+			retorno = this.proximo.procurar(CPF);
 		}
-		
+		return retorno;
 	}
 	
 	public void remover(String CPF) {
