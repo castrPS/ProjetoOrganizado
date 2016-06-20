@@ -2,7 +2,7 @@ package classesbasicas;
 import exceptions.*;
 
 public abstract class QuartoAbstrato {
-	//O numero do quarto servirá como identificador do mesmo
+	//O numero do quarto servira como identificador do mesmo
 	private String numero;
 	private Cliente hospede;
 	private double valorDiaria;
@@ -23,6 +23,7 @@ public abstract class QuartoAbstrato {
 		if (this.hospede == null) {
 			this.hospede = cliente;
 			this.total = this.valorDiaria*dias;
+			this.limpo = false;
 		} else {
 			throw new QuartoOcupadoException(this.numero, this.hospede);
 		}
@@ -39,20 +40,12 @@ public abstract class QuartoAbstrato {
 		}
 	}
 	
-	public void limpar() throws QuartoLimpoException {
-		if (!limpo) {
-			limpo = true;
-		} else {
-			throw new QuartoLimpoException(this.numero);
-		}
+	public void limpar(){
+		limpo = true;
 	}
 	
-	public Cliente getCliente() throws QuartoVazioException {
-		if (this.hospede != null) {
-			return this.hospede;
-		} else {
-			throw new QuartoVazioException(this.numero);
-		}
+	public Cliente getHospede(){
+		return hospede;
 	}
 	public String getNumero() {
 		return numero;
