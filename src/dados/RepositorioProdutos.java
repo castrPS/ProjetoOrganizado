@@ -1,5 +1,5 @@
 package dados;
-import classesbasicas.Produto;
+import classesBasicas.Produto;
 import exceptions.*;
 
 public interface RepositorioProdutos {
@@ -7,9 +7,9 @@ public interface RepositorioProdutos {
 
 	Produto procurar(String nome) throws ProdutoNaoCadastradoException;
 
-	void remover(String nome) throws ProdutoNaoCadastradoException;
+	boolean remover(Produto produto) throws ProdutoNaoCadastradoException;
 
-	void atualizarPreco(String nome, double preco) throws ProdutoNaoCadastradoException;
+	void atualizarPreco(Produto produto, double preco) throws ProdutoNaoCadastradoException;
 
-	void renovarEstoque(String nome, int quantidade) throws ProdutoNaoCadastradoException;
+	void renovarEstoque(Produto produto, int quantidade) throws ProdutoNaoCadastradoException;
 }
