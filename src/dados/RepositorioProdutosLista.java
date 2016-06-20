@@ -1,5 +1,5 @@
 package dados;
-import classesbasicas.Produto;
+import classesBasicas.Produto;
 import exceptions.*;
 
 public class RepositorioProdutosLista implements RepositorioProdutos {
@@ -17,8 +17,6 @@ public class RepositorioProdutosLista implements RepositorioProdutos {
 		if (this.proximo == null) {
 			this.proximo = new RepositorioProdutosLista();
 			this.proximo.produto = produto;
-		} else if (this.produto.getNome() == produto.getNome()) {
-			throw new ProdutoJaCadastradoException();
 		} else {
 			this.proximo.cadastrar(produto);
 		}
@@ -30,44 +28,34 @@ public class RepositorioProdutosLista implements RepositorioProdutos {
 		if (this.produto != null && this.produto.getNome() == nome) {
 			return this.produto;
 		} else {
-			if (this.proximo == null) {
-				throw new ProdutoNaoCadastradoException();
-			} else {
 				return this.proximo.procurar(nome);
 			}
-		}
 	}
 
 	@Override
 	// aqui remove
-	public void remover(String nome) throws ProdutoNaoCadastradoException {
-		if (this.proximo.produto.getNome() == nome) {
+	public boolean remover(Produto produto) throws ProdutoNaoCadastradoException {
+		boolean achou=false;
+		if (this.proximo.produto.getNome() == produto.getNome()) {
 			if (this.proximo.proximo == null) {
 				this.proximo = null;
 			} else {
 				this.proximo = this.proximo.proximo;
 			}
+			achou=true;
 		} else {
-			if (this.proximo.proximo == null) {
-				// aqui da exception se se não tiver produto cadastrado
-				throw new ProdutoNaoCadastradoException();
-			} else {
-				this.proximo.remover(nome);
-			}
+				this.proximo.remover(produto);
 		}
+		return achou;
 	}
 
 	@Override
-	public void atualizarPreco(String nome, double preco) throws ProdutoNaoCadastradoException {
-		Produto produto;
-		produto = procurar(nome);
+	public void atualizarPreco(Produto produto, double preco) throws ProdutoNaoCadastradoException {
 		produto.setPreco(preco);
 	}
 
 	@Override
-	public void renovarEstoque(String nome, int quantidade) throws ProdutoNaoCadastradoException {
-		Produto produto;
-		produto = procurar(nome);
+	public void renovarEstoque(Produto produto, int quantidade) throws ProdutoNaoCadastradoException {
 		quantidade += produto.getEstoque();
 		produto.setEstoque(quantidade);
 	}
